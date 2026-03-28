@@ -9,7 +9,20 @@
  */
 {
   "sections": {
+    "featured_product_HEUXtK": {
+      "type": "featured-products",
+      "name": "Featured Products",
+      "settings": {
+        "selected_products": [
+          "fancy-t-shirt",
+          "the-collection-snowboard-oxygen",
+          "the-collection-snowboard-liquid",
+          "the-complete-snowboard"
+        ]
+      }
+    }
   },
   "order": [
+    "featured_product_HEUXtK"
   ]
 }

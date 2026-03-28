@@ -1,0 +1,29 @@
+{% if section.settings.selected_products != blank %}
+  <section>
+    <h2>{{ 'products.featured' | t }}</h2>
+    <div>
+      {% for product in section.settings.selected_products %}
+        {% render 'product-tile', product: product %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    {
+      "type": "product_list",
+      "id": "selected_products",
+      "label": "Choose products"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}
