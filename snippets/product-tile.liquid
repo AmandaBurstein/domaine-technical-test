@@ -4,19 +4,31 @@
 
   <article
     class="border flex flex-col p-4 product-tile"
-    data-variants="{{ product | json }}"
   >
+    <script type="application/json" class="variants-data">
+      [
+        {% for variant in product.variants %}
+          {
+            "featured_image": {{ variant.featured_image | json }},
+            "hover_image": {{ variant.metafields.custom.secondary_image.value | json }},
+            "price": {{ variant.price | json }},
+            "compare_at": {{ variant.compare_at_price | json }},
+            "options": {{ variant.options | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    </script>
     <div class="group relative overflow-hidden">
       <div class="transition-opacity duration-300 ease-in-out group-hover:opacity-0">
         {% if product.first_available_variant.featured_image != blank %}
-          {{ product.first_available_variant.featured_image | image_url: width: 344 | image_tag }}
+         <img class="product-image primary" src="{{ product.first_available_variant.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" width="327" height="327">
         {% else %}
           {{ 'product-apparel-1' | placeholder_svg_tag }}
         {% endif %}
       </div>
       <div class="absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
         {% if product.first_available_variant.metafields.custom.secondary_image != blank %}
-          {{ product.first_available_variant.metafields.custom.secondary_image | image_url: width: 344 | image_tag }}
+            <img class="product-image secondary" src="{{ product.first_available_variant.metafields.custom.secondary_image.value | image_url: width: 600 }}" alt="{{ product.title }}" width="327" height="327">
         {% else %}
           {{ 'product-apparel-1' | placeholder_svg_tag }}
         {% endif %}
@@ -59,3 +71,5 @@
   </article>
 
 {{ 'product-tile.js' | asset_url | script_tag }}
+
+
