@@ -1,7 +1,11 @@
+{% comment %}
+  Renders a list of product tiles as per the configured products.
+{% endcomment %}
+
 {% if section.settings.selected_products != blank %}
   <section>
-    <h2>{{ 'products.featured' | t }}</h2>
-    <div>
+    <h2 class="mb-8 text-4xl font-bold">{{ 'products.featured' | t }}</h2>
+    <div class="flex gap-8">
       {% for product in section.settings.selected_products %}
         {% render 'product-tile', product: product %}
       {% endfor %}

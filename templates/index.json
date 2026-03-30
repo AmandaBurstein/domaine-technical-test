@@ -14,10 +14,7 @@
       "name": "Featured Products",
       "settings": {
         "selected_products": [
-          "fancy-t-shirt",
-          "the-collection-snowboard-oxygen",
-          "the-collection-snowboard-liquid",
-          "the-complete-snowboard"
+          "fancy-t-shirt"
         ]
       }
     }

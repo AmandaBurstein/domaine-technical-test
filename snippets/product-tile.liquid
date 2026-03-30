@@ -1,7 +1,61 @@
-<article>
-  <a href="{{ product.url }}">
-    <p>{{ product.vendor }}</p>
-    <p>{{ product.title }}</p>
-  </a>
-</article>
+{% comment %}
+  Renders the product tile.
+{% endcomment %}
 
+  <article
+    class="border flex flex-col p-4 product-tile"
+    data-variants="{{ product | json }}"
+  >
+    <div class="group relative overflow-hidden">
+      <div class="transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+        {% if product.first_available_variant.featured_image != blank %}
+          {{ product.first_available_variant.featured_image | image_url: width: 344 | image_tag }}
+        {% else %}
+          {{ 'product-apparel-1' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+      <div class="absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
+        {% if product.first_available_variant.metafields.custom.secondary_image != blank %}
+          {{ product.first_available_variant.metafields.custom.secondary_image | image_url: width: 344 | image_tag }}
+        {% else %}
+          {{ 'product-apparel-1' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+    </div>
+
+    {% assign color_option_index = blank %}
+    {% for option in product.options_with_values %}
+      {% if option.name == 'Color' %}
+        {% assign color_option_index = forloop.index0 %}
+      {% endif %}
+    {% endfor %}
+
+    {% if color_option_index != blank %}
+      {% assign color_option = product.options_with_values[color_option_index] %}
+
+      <div class="flex gap-2">
+        {% for value in color_option.values %}
+          <button 
+            type="button"
+            class="color-swatch rounded-full p-[2px] border-black border-solid {% if forloop.first %} border {% endif %}" 
+            data-color="{{ value }}"
+          >
+            <span 
+              class="size-4 block rounded-full"
+              style="background-color: {{ value | downcase }};"
+              title="{{ value }}">
+            </span>
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <a href="{{ product.url }}">
+      <p>{{ product.vendor }}</p>
+      <p>{{ product.title }}</p>
+      <p>{{ product.price | money }}</p>
+    </a>
+
+  </article>
+
+{{ 'product-tile.js' | asset_url | script_tag }}
