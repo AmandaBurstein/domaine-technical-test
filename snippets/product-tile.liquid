@@ -114,13 +114,6 @@
           </p>
       </div>
     </a>
-
   </article>
 
 {{ 'product-tile.js' | asset_url | script_tag }}
-
-
-<script>
-  console.log("first variant", {{ product.first_available_variant | json }})
-  console.log("is_sale", {{ is_sale }})
-</script>
