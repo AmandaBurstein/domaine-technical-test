@@ -1,4 +1,4 @@
-<h1>Domaine Technical Assessment</h1>
+👩‍💻<h1>Domaine Technical Assessment</h1>👩‍💻
 
 ## Overview
 
@@ -8,13 +8,13 @@ The product tile is built within a Shopify theme environment using TailwindCSS a
 
 ## Links
 
-- 🔗 Live Demo: [Shopify preview link]
-- 📦 GitHub Repository: [repo link]
+- 🔗 Live Demo: [https://amandas-dev-store.myshopify.com/?_ab=0&_bt=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVJoYldGdVpHRnpMV1JsZGkxemRHOXlaUzV0ZVhOb2IzQnBabmt1WTI5dEJqb0dSVlE9IiwiZXhwIjoiMjAyNi0wMy0zMVQxNzo0ODowMC45MjRaIiwicHVyIjoicGVybWFuZW50X3Bhc3N3b3JkX2J5cGFzcyJ9fQ%3D%3D--1a80c011ff7417ce867153b2ae7901df14161f2d&_fd=0&_sc=1&key=7a15a348cecfa77336ac36e9220f629a0e03ffdcd1853d501e5efd5c0a7c5312&preview_theme_id=160467747059]
+- 📦 GitHub Repository: [https://github.com/AmandaBurstein/domaine-technical-test]
 
 ## Tech Stack
 
 - Shopify (Liquid)
-- TailwindCSS (using CDN vs build process since small example project)
+- TailwindCSS (using CDN vs build process reduce setup complexity)
 - JavaScript (for interactivity)
 - Shopify CLI (for local development)
 
