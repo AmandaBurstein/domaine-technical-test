@@ -43,7 +43,8 @@
     "enter": "Enter"
   },
   "products": {
-    "featured": "Featured products"
+    "featured": "Featured products",
+    "sale": "On sale!"
   },
   "search": {
     "title": "Search",

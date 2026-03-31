@@ -2,10 +2,18 @@
   Renders the product tile.
 {% endcomment %}
 
+{% assign is_sale = false %}
+{% if product.first_available_variant.compare_at_price != blank %}
+  {% if product.first_available_variant.compare_at_price > product.first_available_variant.price %}
+    {% assign is_sale = true %}
+  {% endif %}
+{% endif %}
+
   <article
-    class="border flex flex-col p-4 product-tile"
+    class="flex flex-col gap-[15px]"
+    data-product-tile
   >
-    <script type="application/json" class="variants-data">
+    <script type="application/json" data-variants>
       [
         {% for variant in product.variants %}
           {
@@ -18,17 +26,35 @@
         {% endfor %}
       ]
     </script>
-    <div class="group relative overflow-hidden">
-      <div class="transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+    <div class="group relative overflow-hidden border border-[#E8E8E8] rounded-xl">
+      <div
+        class="text-[#FF0000] bg-white rounded-full border border-[#FF0000] py-1.5 px-3 capitalize absolute top-[20px] left-[20px] z-[1] {% if is_sale == false %} hidden {% endif %}%}"
+        data-badge
+      >
+        {{ 'products.sale' | t }}
+      </div>
+      <div class="transition-opacity duration-300 ease-in-out group-hover:opacity-0 p-5">
         {% if product.first_available_variant.featured_image != blank %}
-         <img class="product-image primary" src="{{ product.first_available_variant.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" width="327" height="327">
+         <img
+            src="{{ product.first_available_variant.featured_image | image_url: width: 600 }}"
+            alt="{{ product.title }}"
+            width="327"
+            height="327"
+            data-image-primary
+          >
         {% else %}
           {{ 'product-apparel-1' | placeholder_svg_tag }}
         {% endif %}
       </div>
-      <div class="absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
+      <div class="absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 p-5">
         {% if product.first_available_variant.metafields.custom.secondary_image != blank %}
-            <img class="product-image secondary" src="{{ product.first_available_variant.metafields.custom.secondary_image.value | image_url: width: 600 }}" alt="{{ product.title }}" width="327" height="327">
+          <img
+            src="{{ product.first_available_variant.metafields.custom.secondary_image.value | image_url: width: 600 }}"
+            alt="{{ product.title }}"
+            width="327"
+            height="327"
+            data-image-secondary
+          >
         {% else %}
           {{ 'product-apparel-1' | placeholder_svg_tag }}
         {% endif %}
@@ -41,19 +67,18 @@
         {% assign color_option_index = forloop.index0 %}
       {% endif %}
     {% endfor %}
-
     {% if color_option_index != blank %}
       {% assign color_option = product.options_with_values[color_option_index] %}
-
-      <div class="flex gap-2">
+      <div class="flex gap-[5px]">
         {% for value in color_option.values %}
           <button 
             type="button"
-            class="color-swatch rounded-full p-[2px] border-black border-solid {% if forloop.first %} border {% endif %}" 
+            class="rounded-full p-[2px] border-black border-solid {% if forloop.first %} border {% endif %}" 
             data-color="{{ value }}"
+            data-color-swatch
           >
             <span 
-              class="size-4 block rounded-full"
+              class="size-5 block rounded-full"
               style="background-color: {{ value | downcase }};"
               title="{{ value }}">
             </span>
@@ -62,10 +87,32 @@
       </div>
     {% endif %}
 
-    <a href="{{ product.url }}">
-      <p>{{ product.vendor }}</p>
-      <p>{{ product.title }}</p>
-      <p>{{ product.price | money }}</p>
+    <a
+      href="{{ product.url }}"
+      class="flex flex-col gap-[6px] font-sans"
+    >
+      <p class="text-sm">
+        {{ product.vendor }}
+      </p>
+      <p class="text-base font-medium text-[#0A4874]">
+        {{ product.title }}
+      </p>
+      <div class="flex gap-2 text-sm">
+        {% if product.first_available_variant.compare_at_price != blank %}
+          <p
+            class="line-through"
+            data-compare-at
+          >
+            {{ product.first_available_variant.compare_at_price | money }}
+          </p>
+        {% endif %}
+         <p
+            class="{% if is_sale %} text-[#FF0000] {% endif %}"
+            data-price
+          >
+            {{ product.first_available_variant.price | money }}
+          </p>
+      </div>
     </a>
 
   </article>
@@ -73,3 +120,7 @@
 {{ 'product-tile.js' | asset_url | script_tag }}
 
 
+<script>
+  console.log("first variant", {{ product.first_available_variant | json }})
+  console.log("is_sale", {{ is_sale }})
+</script>
